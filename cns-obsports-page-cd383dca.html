@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ob体育 · 快速识别入口 · 知识库</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fdebcf 0%, #f5d8b3 50%, #ecc49a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+        .library-card {
+            max-width: 1050px;
+            width: 100%;
+            background: #fffffffa;
+            backdrop-filter: blur(2px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 25px 40px -18px rgba(120, 70, 30, 0.35), 0 10px 20px -6px rgba(80, 45, 15, 0.15);
+            padding: 3rem 2.5rem;
+            transition: box-shadow 0.25s;
+        }
+        @media (max-width: 600px) {
+            body { padding: 1rem 0.75rem; }
+            .library-card { padding: 2rem 1.25rem; border-radius: 32px; }
+        }
+
+        /* 目录感布局 */
+        .toc-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2.2rem;
+            border-bottom: 2px solid #f2dcc9;
+            padding-bottom: 1rem;
+        }
+        .toc-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #4f311b;
+            background: linear-gradient(135deg, #6f3f1f, #a5612e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .toc-header .badge {
+            background: #e8cfb2;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4f2e15;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        /* 网格目录 */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem 1.2rem;
+            margin: 1.8rem 0 2.2rem;
+        }
+        .dir-item {
+            background: #faf3eb;
+            border-radius: 24px;
+            padding: 1rem 1.2rem;
+            border-left: 6px solid #daa776;
+            transition: 0.2s;
+        }
+        .dir-item:hover { background: #f5e7db; border-left-color: #b57b4b; transform: translateY(-2px); }
+        .dir-item .label { font-weight: 600; color: #442812; font-size: 1rem; display: block; }
+        .dir-item .hint { font-size: 0.8rem; color: #7a5a3c; margin-top: 0.25rem; }
+
+        /* 说明区 */
+        .explain-block {
+            background: #f8efe6;
+            border-radius: 28px;
+            padding: 1.8rem 2rem;
+            margin: 1.5rem 0 2rem;
+        }
+        .explain-block h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3d2818;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .explain-block p {
+            color: #2f1f12;
+            line-height: 1.65;
+            font-size: 1rem;
+        }
+        .explain-block p + p { margin-top: 0.75rem; }
+
+        /* 提示区 + 相关区 (双栏) */
+        .info-duo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 2rem 0 1.5rem;
+        }
+        .info-card {
+            background: #f9f2ea;
+            flex: 1 1 240px;
+            border-radius: 28px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: inset 0 1px 3px rgba(255,245,235,0.6);
+        }
+        .info-card h3 {
+            font-size: 1.15rem;
+            color: #542f14;
+            font-weight: 600;
+            border-bottom: 1px solid #e3cdb7;
+            padding-bottom: 0.45rem;
+            margin-bottom: 0.9rem;
+        }
+        .info-card ul, .info-card .faq-item { list-style: none; }
+        .info-card li {
+            padding: 0.25rem 0;
+            font-size: 0.95rem;
+            color: #3b281b;
+            display: flex;
+            gap: 0.5rem;
+            align-items: baseline;
+        }
+        .info-card li::before { content: "▹"; color: #b67d4b; font-weight: bold; }
+        .faq-item {
+            margin-bottom: 0.8rem;
+        }
+        .faq-item strong {
+            display: block;
+            font-weight: 600;
+            color: #4f2e14;
+            font-size: 0.95rem;
+        }
+        .faq-item span {
+            font-size: 0.9rem;
+            color: #3f2b1b;
+            line-height: 1.5;
+        }
+
+        /* 自然链接句子 */
+        .sentence-link-box {
+            background: #f2e4d6;
+            border-radius: 60px;
+            padding: 1rem 1.8rem;
+            margin: 1.8rem 0 0.8rem;
+            display: inline-block;
+            width: auto;
+        }
+        .sentence-link-box p {
+            color: #2f1d0f;
+            font-size: 1rem;
+        }
+        .sentence-link-box a {
+            color: #934f1e;
+            background: #ffffffc0;
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            border: 1px solid #dbb48b;
+            display: inline-block;
+            line-height: 1.6;
+        }
+        .sentence-link-box a:hover {
+            background: #ffffff;
+            border-color: #aa6f3b;
+            box-shadow: 0 2px 6px rgba(180, 100, 30, 0.2);
+        }
+
+        /* footer */
+        .foot-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #785c41;
+            border-top: 1px solid #eddac9;
+            padding-top: 1.5rem;
+            letter-spacing: 0.2px;
+        }
+
+        hr.divider-light {
+            border: 0; height: 1px; background: linear-gradient(to right, transparent, #dcc1aa, transparent);
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="library-card">
+
+    <!-- 目录感头部 -->
+    <div class="toc-header">
+        <h1>📋 网站用途速查 · 知识索引</h1>
+        <span class="badge">ob 服务识别</span>
+    </div>
+
+    <!-- 目录网格：快速定位站点属性 -->
+    <div class="directory-grid">
+        <div class="dir-item">
+            <span class="label">🏷️ 平台定位</span>
+            <span class="hint">体育资讯 · 互动服务</span>
+        </div>
+        <div class="dir-item">
+            <span class="label">🌐 语言区域</span>
+            <span class="hint">中文界面 · 简体</span>
+        </div>
+        <div class="dir-item">
+            <span class="label">⚙️ 功能方向</span>
+            <span class="hint">信息聚合 · 用户入口</span>
+        </div>
+        <div class="dir-item">
+            <span class="label">🔐 访问建议</span>
+            <span class="hint">浏览器直接打开</span>
+        </div>
+        <div class="dir-item">
+            <span class="label">📁 内容类型</span>
+            <span class="hint">体育相关 · 站内导航</span>
+        </div>
+        <div class="dir-item">
+            <span class="label">🧭 参考标识</span>
+            <span class="hint">cns-obsports.com</span>
+        </div>
+    </div>
+
+    <!-- 说明区：从用户快速识别角度 -->
+    <div class="explain-block">
+        <h2>🔍 如何快速识别这个网站？</h2>
+        <p>如果你刚接触到 cns-obsports.com，想了解它是不是你要找的服务，可以从几个方面判断：域名中的“obsports”是核心标识，而“cns”通常指向中文服务节点。整个站点围绕体育内容与互动功能搭建，首页会展示分类模块和当前热门入口。</p>
+        <p>在该网站中，<a href="https://cns-obsports.com" style="background: transparent; padding: 0; border: none; color: #934f1e; font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">ob体育</a>是用户最常检索的服务名称。你可以通过这个关键词快速对应到网站的主要用途：它指向一个提供体育资讯、赛事信息及关联功能的平台。页面采用卡片与列表结合的方式，方便访客直达自己关心的版块。</p>
+    </div>
+
+    <!-- 提示区 + 相关信息区 双栏 -->
+    <div class="info-duo">
+        <div class="info-card">
+            <h3>💡 使用提示</h3>
+            <ul>
+                <li>首次访问建议查看顶部导航分类</li>
+                <li>部分内容可能需要登录后浏览</li>
+                <li>移动端适配良好，可横向滑屏</li>
+                <li>若页面加载异常，可尝试刷新或更换网络</li>
+                <li>网站未收集超出常规的浏览信息</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h3>❓ 常见疑问摘要</h3>
+            <div class="faq-item">
+                <strong>这是官方站点吗？</strong>
+                <span>域名与品牌对应，属于该服务的中文访问地址之一。</span>
+            </div>
+            <div class="faq-item">
+                <strong>是否需要下载软件？</strong>
+                <span>不需要，直接通过浏览器使用网页端功能。</span>
+            </div>
+            <div class="faq-item">
+                <strong>内容更新频率？</strong>
+                <span>首页模块按活动周期与资讯节奏保持更新。</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自然嵌入链接的句子区 (a标签可见文本 = ob体育) -->
+    <div class="sentence-link-box">
+        <p>如果你在找与“ob”相关的体育服务，可以直接访问 <a href="https://cns-obsports.com">ob体育</a> 了解具体分类和当前可用内容。该入口整合了主要功能模块，适合首次探索。</p>
+    </div>
+
+    <hr class="divider-light">
+
+    <!-- 额外相关信息区：更多上下文 -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;">
+        <div style="font-size: 0.9rem; color: #4f3a28;">
+            <span style="background: #e7d2be; padding: 0.2rem 1rem; border-radius: 30px;">🧩 相关标识：OBSPORTS · 中文站</span>
+        </div>
+        <div style="font-size: 0.85rem; color: #7b5f46;">
+            <span>页面版本 · 知识卡 2405</span>
+        </div>
+    </div>
+
+    <div class="foot-note">
+        cns-obsports.com — 用途介绍页 · 内容仅供参考，以网站实际展示为准。
+    </div>
+
+</div>
+</body>
+</html>
